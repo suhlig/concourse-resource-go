@@ -10,9 +10,6 @@ import (
 )
 
 type Resource[S any, V any, P any] interface {
-	// Name returns the human-readable name of the resource
-	Name() string
-
 	// Check is invoked to detect new versions of the resource.
 	//
 	// It is given the configured source and current version, and must append new versions to the response slice, in

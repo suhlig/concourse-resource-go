@@ -14,10 +14,10 @@ import (
 // they will be checked, too. Check the [validator] package for details.
 //
 // [validator]: https://pkg.go.dev/github.com/go-playground/validator
-func NewRootCommand[S any, V any, P any](resource Resource[S, V, P]) *cobra.Command {
+func NewRootCommand[S any, V any, P any](resource Resource[S, V, P], name string) *cobra.Command {
 	var rootCommand = &cobra.Command{
 		SilenceUsage: true,
-		Short:        resource.Name(),
+		Short:        name,
 	}
 
 	rootCommand.AddCommand(checkCommand(resource))
