@@ -1,6 +1,7 @@
 package concourse_test
 
 import (
+	"errors"
 	"io"
 	"strings"
 
@@ -75,7 +76,7 @@ var _ = Describe("Check Validation", func() {
 			var validationErrors validator.ValidationErrors
 
 			JustBeforeEach(func() {
-				validationErrors = err.(validator.ValidationErrors)
+				validationErrors = errors.Unwrap(err).(validator.ValidationErrors)
 			})
 
 			It("has the expected error", func() {
