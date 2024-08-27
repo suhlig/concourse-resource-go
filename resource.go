@@ -99,7 +99,7 @@ func (r CheckResponse[V]) Validate() error {
 
 type Response[V any] struct {
 	Version  V               `json:"version" validate:"required"`
-	Metadata []NameValuePair `json:"metadata" validate:"dive"`
+	Metadata []NameValuePair `json:"metadata,omitempty" validate:"dive"`
 }
 
 func (r Response[V]) Validate() error {
