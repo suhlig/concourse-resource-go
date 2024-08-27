@@ -62,7 +62,7 @@ func (r PutRequest[S, P]) Validate() error {
 
 type PutRequest[S any, P any] struct {
 	Source S `json:"source" validate:"required"`
-	Params P `json:"params" validate:"dive"`
+	Params P `json:"params"`
 }
 
 type CheckResponse[V any] []V
