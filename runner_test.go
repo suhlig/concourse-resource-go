@@ -16,7 +16,7 @@ import (
 var _ = Describe("Check Validation", func() {
 	var (
 		err            error
-		resource       concourse.Resource[Source, Version, Params]
+		resource       concourse.Resource[Source, Version, GetParams, PutParams]
 		stdin          io.Reader
 		stdout, stderr io.Writer
 	)
@@ -27,12 +27,12 @@ var _ = Describe("Check Validation", func() {
 	})
 
 	JustBeforeEach(func(ctx SpecContext) {
-		err = concourse.CheckWithValidation[Source, Version, Params](ctx, resource, stdin, stdout, stderr)
+		err = concourse.CheckWithValidation[Source, Version, GetParams](ctx, resource, stdin, stdout, stderr)
 	})
 
 	Context("valid request", func() {
 		BeforeEach(func() {
-			resource = NullResource[Source, Version, Params]{}
+			resource = NullResource[Source, Version, GetParams, PutParams]{}
 
 			stdin = strings.NewReader(`{
 				"source": {
@@ -50,7 +50,7 @@ var _ = Describe("Check Validation", func() {
 
 		Context("invalid response", func() {
 			BeforeEach(func() {
-				resource = Troublemaker[Source, Version, Params]{}
+				resource = Troublemaker[Source, Version, GetParams]{}
 			})
 
 			It("fails", func() {

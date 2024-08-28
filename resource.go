@@ -9,7 +9,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type Resource[S any, V any, P any] interface {
+type Resource[S, V, GP, PP any] interface {
 	// Check is invoked to detect new versions of the resource.
 	//
 	// It is given the configured source and current version, and must return new versions as response, in
@@ -26,7 +26,7 @@ type Resource[S any, V any, P any] interface {
 	// The function must return a response that describes the fetched version, and may add metadata.
 	//
 	// [In]: https://concourse-ci.org/implementing-resource-types.html#resource-in
-	Get(ctx context.Context, request GetRequest[S, V, P], log io.Writer, destination string) (*Response[V], error)
+	Get(ctx context.Context, request GetRequest[S, V, GP], log io.Writer, destination string) (*Response[V], error)
 
 	// Put is invoked to store the resource as it is given in the passed directory.
 	//
@@ -34,10 +34,10 @@ type Resource[S any, V any, P any] interface {
 	// resulting version, and may add metadata.
 	//
 	// [Out]: https://concourse-ci.org/implementing-resource-types.html#resource-out
-	Put(ctx context.Context, request PutRequest[S, P], log io.Writer, source string) (*Response[V], error)
+	Put(ctx context.Context, request PutRequest[S, PP], log io.Writer, source string) (*Response[V], error)
 }
 
-type CheckRequest[S any, V any] struct {
+type CheckRequest[S, V any] struct {
 	Source  S `json:"source" validate:"required"`
 	Version V `json:"version" validate:"omitempty"`
 }
@@ -46,7 +46,7 @@ func (r CheckRequest[S, V]) Validate() error {
 	return validator.New(validator.WithRequiredStructEnabled()).Struct(r)
 }
 
-type GetRequest[S any, V any, P any] struct {
+type GetRequest[S, V, P any] struct {
 	Source  S `json:"source" validate:"required"`
 	Version V `json:"version" validate:"required"`
 	Params  P `json:"params"`
@@ -60,7 +60,7 @@ func (r PutRequest[S, P]) Validate() error {
 	return validator.New(validator.WithRequiredStructEnabled()).Struct(r)
 }
 
-type PutRequest[S any, P any] struct {
+type PutRequest[S, P any] struct {
 	Source S `json:"source" validate:"required"`
 	Params P `json:"params"`
 }

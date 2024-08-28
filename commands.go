@@ -11,7 +11,7 @@ import (
 // they will be checked, too. Check the [validator] package for details.
 //
 // [validator]: https://pkg.go.dev/github.com/go-playground/validator
-func NewRootCommand[S any, V any, P any](resource Resource[S, V, P], name string) *cobra.Command {
+func NewRootCommand[S, V, GP, PP any](resource Resource[S, V, GP, PP], name string) *cobra.Command {
 	var rootCommand = &cobra.Command{
 		SilenceUsage: true,
 		Short:        name,
@@ -24,7 +24,7 @@ func NewRootCommand[S any, V any, P any](resource Resource[S, V, P], name string
 	return rootCommand
 }
 
-func checkCommand[S any, V any, P any](resource Resource[S, V, P]) *cobra.Command {
+func checkCommand[S, V, GP, PP any](resource Resource[S, V, GP, PP]) *cobra.Command {
 	return &cobra.Command{
 		Use:   "check",
 		Short: "Fetches the latest version of the resource and emit its version",
@@ -34,7 +34,7 @@ func checkCommand[S any, V any, P any](resource Resource[S, V, P]) *cobra.Comman
 	}
 }
 
-func getCommand[S any, V any, P any](resource Resource[S, V, P]) *cobra.Command {
+func getCommand[S, V, GP, PP any](resource Resource[S, V, GP, PP]) *cobra.Command {
 	return &cobra.Command{
 		Use:   "get",
 		Short: "Fetches the requested version of the resource and places its state in the input directory",
@@ -45,7 +45,7 @@ func getCommand[S any, V any, P any](resource Resource[S, V, P]) *cobra.Command 
 	}
 }
 
-func putCommand[S any, V any, P any](resource Resource[S, V, P]) *cobra.Command {
+func putCommand[S, V, GP, PP any](resource Resource[S, V, GP, PP]) *cobra.Command {
 	return &cobra.Command{
 		Use:   "put",
 		Short: "Puts a new version of the resource from the state in the output directory",

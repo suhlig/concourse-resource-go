@@ -7,7 +7,7 @@ import (
 	"io"
 )
 
-func CheckWithValidation[S any, V any, P any](ctx context.Context, resource Resource[S, V, P], stdin io.Reader, stdout, stderr io.Writer) error {
+func CheckWithValidation[S, V, GP, PP any](ctx context.Context, resource Resource[S, V, GP, PP], stdin io.Reader, stdout, stderr io.Writer) error {
 	var request CheckRequest[S, V]
 	err := json.NewDecoder(stdin).Decode(&request)
 
@@ -36,8 +36,8 @@ func CheckWithValidation[S any, V any, P any](ctx context.Context, resource Reso
 	return json.NewEncoder(stdout).Encode(response)
 }
 
-func GetWithValidation[S any, V any, P any](ctx context.Context, resource Resource[S, V, P], stdin io.Reader, stdout, stderr io.Writer, destination string) error {
-	var request GetRequest[S, V, P]
+func GetWithValidation[S, V, GP, PP any](ctx context.Context, resource Resource[S, V, GP, PP], stdin io.Reader, stdout, stderr io.Writer, destination string) error {
+	var request GetRequest[S, V, GP]
 	err := json.NewDecoder(stdin).Decode(&request)
 
 	if err != nil {
@@ -66,8 +66,8 @@ func GetWithValidation[S any, V any, P any](ctx context.Context, resource Resour
 
 }
 
-func PutWithValidation[S any, V any, P any](ctx context.Context, resource Resource[S, V, P], stdin io.Reader, stdout, stderr io.Writer, source string) error {
-	var request PutRequest[S, P]
+func PutWithValidation[S, V, GP, PP any](ctx context.Context, resource Resource[S, V, GP, PP], stdin io.Reader, stdout, stderr io.Writer, source string) error {
+	var request PutRequest[S, PP]
 	err := json.NewDecoder(stdin).Decode(&request)
 
 	if err != nil {
