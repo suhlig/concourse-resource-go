@@ -2,7 +2,7 @@ module github.com/suhlig/concourse-resource-go
 
 go 1.27
 
-toolchain go1.27.2
+toolchain go1.27.3
 
 require (
 	github.com/go-playground/validator/v10 v10.30.5
